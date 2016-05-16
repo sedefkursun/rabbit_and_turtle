@@ -1,0 +1,171 @@
+// ***SEDEF KURSUN 
+
+#include<stdio.h>
+#include<stdlib.h>
+#include <windows.h>
+#include <time.h>
+
+
+int RACE_LENGTH = 78;
+int turtlePossition = 0;
+int rabbitPossition = 0;
+int rabbitSleepTime = 0;
+int raceFinished  = 0;
+char RABBIT = 'R';
+char TURTLE = 'T';
+
+
+int main()
+{
+    drawScreen(RACE_LENGTH, turtlePossition, rabbitPossition);
+    Sleep(2000);
+    do{
+    turtlePossition =turtlePossitionFunction(turtlePossition);
+    rabbitPossition = rabbitPossitionFunction(rabbitPossition);
+    drawScreen(RACE_LENGTH, turtlePossition, rabbitPossition);
+    Sleep(1000);
+    } while(raceFinished == 0);
+
+      if (rabbitPossition >= RACE_LENGTH)
+            {
+                printf("RABBIT WIN!!");
+            }
+        else
+            {
+            printf("TURTLE WIN!!\n");
+            }
+        return 0;
+}
+
+int drawScreen(int RACE_LENGTH,int turtlePossition,int rabbitPossition)
+{
+    int counter = 0;
+    system("cls");
+
+   if (rabbitSleepTime > 0)
+   {
+       printf("Rabbit %d. sleep time :) .", rabbitSleepTime);
+   }
+    printf("\n\n");
+
+    for(counter = 0 ; counter < RACE_LENGTH ; counter++)
+    {
+       printf("-");
+    }
+       printf("\n");
+
+
+    for(counter =0 ; counter <= RACE_LENGTH ; counter++)
+       {
+       if (counter == rabbitPossition)
+        {
+            printf("%c",RABBIT); continue;
+        }
+            printf(" ");
+       }
+        printf("\n");
+
+        for(counter =0 ; counter <= RACE_LENGTH ; counter++)
+        {
+            if(counter % 3 == 0)
+            {
+                printf("-");
+            }
+                else
+                    {
+                    printf(" ");
+                    }
+        }
+             printf("\n");
+
+         for(counter =0 ; counter <= RACE_LENGTH ; counter++)
+         {
+             if (counter == turtlePossition)
+             {
+                 printf("%c",TURTLE); continue;
+
+             }
+                 printf(" ");
+         }
+                printf("\n");
+
+          for(counter = 0; counter <= RACE_LENGTH ; counter++)
+        {
+            printf("-");
+        }
+            printf("\n");
+            printf("\n");
+
+
+        return 0;
+}
+
+int rabbithowmuchStep()
+{
+    srand(time(NULL));
+
+    int randomnumber = (rand() % 6) + 1 ;
+
+    return randomnumber ;
+}
+
+int turtlehowmuchStep()
+{
+   srand(time(NULL));
+
+   int randomnumber = (rand()% 3) + 1;
+
+    return randomnumber;
+}
+
+
+int rabbitPossitionFunction(int atPossition)
+{
+    int thenPossition,stepNumber;
+
+ while (rabbitSleepTime > 0)
+ {
+     rabbitSleepTime--;
+     return atPossition;
+ }
+    stepNumber = rabbithowmuchStep();
+
+    switch(stepNumber)
+    {
+    case 4:thenPossition = atPossition - 4 ; break ;
+    case 5:rabbitSleepTime= 2; thenPossition = atPossition;  break;
+    default:thenPossition= atPossition + stepNumber;
+    }
+    if (thenPossition <0)
+    {
+        thenPossition = 0;
+    }
+
+    if (thenPossition >= RACE_LENGTH)
+    {
+        thenPossition = 78;
+        raceFinished = 1;
+    }
+
+
+   return thenPossition;
+}
+
+
+int turtlePossitionFunction(int atPossition)
+{
+    int thenPossition,stepNumber;
+
+    stepNumber = turtlehowmuchStep();
+
+    thenPossition = atPossition + stepNumber;
+
+
+    if (thenPossition >= RACE_LENGTH)
+    {
+        thenPossition = 78;
+        raceFinished = 1;
+    }
+
+    return thenPossition;
+}
